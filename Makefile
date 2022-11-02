@@ -1,5 +1,6 @@
 TIMESTAMP := $(shell date -u +"%Y%m%d%H%M%S")
-DOCKER := $(shell { command -v podman || command -v docker; })
+DOCKER := "$(shell { command -v podman || command -v docker; })"
+PWD := $(shell pwd)
 
 .PHONY: clean setup
 
@@ -11,11 +12,7 @@ clean:
 	rm -f firmware/*.uf2
 
 firmware/%-left.uf2 firmware/%-right.uf2: config/adv360.keymap
-	$(DOCKER) run --rm -it --name zmk \
-		-v $(PWD)/firmware:/app/firmware \
-		-v $(PWD)/config:/app/config:ro \
-		-e TIMESTAMP=$(TIMESTAMP) \
-		zmk
+	$(DOCKER) compose run --env TIMESTAMP=$(TIMESTAMP) zmk
 
 setup: Dockerfile bin/build.sh config/west.yml
-	$(DOCKER) build --tag zmk --file Dockerfile .
+	$(DOCKER) compose build zmk

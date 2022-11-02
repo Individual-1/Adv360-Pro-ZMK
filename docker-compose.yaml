@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  zmk:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: zmk:adv360
+    volumes:
+      - ./firmware:/app/firmware
+      - ./config:/app/config:ro
+    environment:
+      TIMESTAMP:
+
