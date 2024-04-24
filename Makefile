@@ -1,6 +1,6 @@
-DOCKER := $(shell { command -v podman || command -v docker; })
+DOCKER := "$(shell { command -v podman || command -v docker; })"
 TIMESTAMP := $(shell date -u +"%Y%m%d%H%M")
-COMMIT := $(shell git rev-parse --short HEAD 2>/dev/null)
+COMMIT := "$(shell git rev-parse --short HEAD 2>/dev/null)"
 ifeq ($(shell uname),Darwin)
 SELINUX1 :=
 SELINUX2 :=
